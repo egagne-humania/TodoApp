@@ -1,0 +1,424 @@
+# TodoApp Cursor AI Rules
+
+## Project Overview
+This is an enterprise-grade TodoApp built with React, TypeScript, Convex, Tailwind CSS, and Shadcn UI, following TDD, SOLID principles, and security-first development.
+
+## Core Development Rules
+
+### Test-Driven Development (TDD)
+- ALWAYS write tests BEFORE implementation code
+- Follow the Red-Green-Refactor cycle religiously
+- Tests must pass before any commit
+- Minimum 80% code coverage
+- Never skip, disable, or mask failing tests
+
+### SOLID Principles
+Apply SOLID principles to all code:
+- Single Responsibility: Each component/function has one clear purpose
+- Open/Closed: Open for extension, closed for modification
+- Liskov Substitution: Subtypes must be substitutable
+- Interface Segregation: No unnecessary dependencies
+- Dependency Inversion: Depend on abstractions, not concretions
+
+### Code Quality Standards
+- TypeScript strict mode: NO 'any' types
+- All function parameters and returns explicitly typed
+- All variables properly typed
+- Zero ESLint errors
+- Zero TypeScript errors
+- Follow DRY principle (Don't Repeat Yourself)
+
+### Styling Rules (CRITICAL)
+- NEVER use inline styles (style={{...}})
+- ALWAYS use Shadcn UI components as base
+- ALWAYS use Tailwind utility classes
+- ALWAYS use theme variables from theme.css
+- Responsive design using Tailwind breakpoints
+- Dark mode support when applicable
+
+### Security Requirements
+- Check authentication in ALL protected Convex queries/mutations
+- Verify authorization (user can only access their own data)
+- Validate ALL user inputs (backend and frontend)
+- Never trust client-side validation alone
+- Handle errors securely (no sensitive info in error messages)
+- Never log sensitive data (PII, passwords, tokens)
+- Use environment variables for secrets
+
+### Component Patterns
+- Use Container/Presentational pattern
+- Container components handle data and logic
+- Presentational components are pure rendering
+- Extract complex logic to custom hooks
+- Use Shadcn components for all UI elements
+
+### Error Handling
+- Wrap all async operations in try-catch
+- Log errors with context (no sensitive data)
+- Show user-friendly error messages
+- Never silence or hide errors
+- Always re-throw errors for upstream handling
+
+## File Organization
+
+### Naming Conventions
+- Components: PascalCase (TodoList.tsx)
+- Hooks: camelCase with 'use' prefix (useTodos.ts)
+- Utilities: camelCase (formatDate.ts)
+- Types: PascalCase (Todo.types.ts)
+- Tests: FileName.test.tsx
+
+### Import Order
+1. External libraries
+2. Internal components/hooks
+3. Types
+4. Styles (if any)
+
+## Convex Backend Patterns
+
+### Queries
+```typescript
+export const query = query({
+  args: { /* Convex validators */ },
+  handler: async (ctx, args) => {
+    // 1. ALWAYS check authentication
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error('Unauthorized');
+    
+    // 2. Query with user isolation
+    const data = await ctx.db
+      .query('table')
+      .withIndex('by_user', q => q.eq('userId', identity.subject))
+      .collect();
+    
+    // 3. Return data
+    return data;
+  },
+});
+```
+
+### Mutations
+```typescript
+export const mutation = mutation({
+  args: { /* Convex validators */ },
+  handler: async (ctx, args) => {
+    // 1. ALWAYS check authentication
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error('Unauthorized');
+    
+    // 2. ALWAYS validate input
+    if (!args.value.trim()) throw new Error('Invalid input');
+    
+    // 3. Check authorization if updating/deleting
+    const resource = await ctx.db.get(args.id);
+    if (resource.userId !== identity.subject) {
+      throw new Error('Forbidden');
+    }
+    
+    // 4. Execute operation
+    const result = await ctx.db.insert('table', { /* data */ });
+    
+    // 5. Return result
+    return result;
+  },
+});
+```
+
+## React Component Pattern
+
+```typescript
+// Container Component (Smart)
+function FeatureContainer() {
+  const data = useQuery(api.feature.list);
+  const mutate = useMutation(api.feature.create);
+  
+  const handleAction = useCallback(async (input: string) => {
+    try {
+      await mutate({ input });
+      toast.success('Success');
+    } catch (error) {
+      console.error('Action failed:', error);
+      toast.error('Failed to complete action');
+      throw error;
+    }
+  }, [mutate]);
+  
+  if (data === undefined) return <LoadingSpinner />;
+  
+  return <FeaturePresenter data={data} onAction={handleAction} />;
+}
+
+// Presentational Component (Dumb)
+interface FeaturePresenterProps {
+  data: DataType[];
+  onAction: (input: string) => void;
+}
+
+function FeaturePresenter({ data, onAction }: FeaturePresenterProps) {
+  return (
+    <Card>
+      <CardContent>
+        {/* Pure rendering with Shadcn components */}
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+## Custom Hook Pattern
+
+```typescript
+function useFeature() {
+  const query = useQuery(api.feature.list);
+  const mutate = useMutation(api.feature.create);
+  
+  const handleCreate = useCallback(async (input: string) => {
+    // Validate
+    if (!input.trim()) throw new Error('Invalid input');
+    
+    try {
+      await mutate({ input });
+      toast.success('Created');
+    } catch (error) {
+      console.error('Create failed:', error);
+      toast.error('Failed to create');
+      throw error;
+    }
+  }, [mutate]);
+  
+  return {
+    data: query,
+    create: handleCreate,
+  };
+}
+```
+
+## MCP Tools Usage
+
+### Context7 - Get Current Documentation
+Use for getting up-to-date library documentation:
+- React best practices
+- Convex patterns
+- Tailwind CSS utilities
+- TypeScript patterns
+
+### Shadcn MCP - UI Components
+Use for discovering and implementing UI components:
+- Search for components
+- View component details
+- Get usage examples
+- Get installation commands
+
+### Convex MCP - Backend Management
+Use for interacting with Convex:
+- Check deployment status
+- List database tables
+- Run queries and mutations
+- View logs
+
+## Deployment Strategy
+
+### Branch & Deployment Structure
+- **`main` branch**: Auto-deploys to **Development** (Cloudflare dev + Convex dev)
+- **`prod` branch**: Auto-deploys to **Production** (Cloudflare prod + Convex prod)
+- **CI/CD**: GitHub Actions (automatic on push)
+
+### Workflow
+1. Feature branches merge to `main` → Dev deployment (1 approval)
+2. `main` merges to `prod` → Prod deployment (2+ approvals)
+
+### Deployment Rules
+- NEVER force push to main or prod
+- NEVER bypass CI checks
+- ALWAYS test in dev before promoting to prod
+- Production deploys: Tuesday-Thursday preferred
+- Emergency deploys: With proper approval only
+
+See [DEPLOYMENT_GUIDE.md](./docs/DEPLOYMENT_GUIDE.md) for full details.
+
+## Documentation References
+
+Always reference these documents:
+- `/docs/DEVELOPMENT_GUIDELINES.md` - Development best practices
+- `/docs/CODE_QUALITY_CHECKLIST.md` - Quality audit checklist
+- `/docs/SECURITY_GUIDELINES.md` - Security practices
+- `/docs/TESTING_STRATEGY.md` - TDD and testing guidelines
+- `/docs/ARCHITECTURE_PATTERNS.md` - Design patterns
+- `/docs/CURSOR_AI_GUIDE.md` - AI development guide
+- `/docs/DEPLOYMENT_GUIDE.md` - Deployment procedures
+- `/docs/QUICK_REFERENCE.md` - Quick reference
+
+## Before Committing - Run These
+
+```bash
+npm test                 # All tests must pass
+npm run lint            # No errors
+npm run build           # Must build successfully
+npx tsc --noEmit       # No TypeScript errors
+```
+
+## Quality Checklist
+
+Before considering any work complete:
+- [ ] Tests written FIRST (TDD)
+- [ ] All tests passing (>80% coverage)
+- [ ] No TypeScript errors
+- [ ] No ESLint errors
+- [ ] Security checked (auth, input validation, error handling)
+- [ ] SOLID principles followed
+- [ ] No inline styles (theme-based only)
+- [ ] Shadcn components used
+- [ ] Error handling proper
+- [ ] Documentation updated (if needed)
+- [ ] Code self-reviewed
+
+## Common Mistakes to Avoid
+
+### ❌ NEVER Do These
+- Use inline styles
+- Skip writing tests first (TDD)
+- Use 'any' type without justification
+- Skip authentication checks in Convex
+- Skip input validation
+- Hide or mask errors
+- Commit with failing tests
+- Trust client-side validation alone
+- Log sensitive data
+- Hardcode secrets
+
+### ✅ ALWAYS Do These
+- Write tests before code (TDD)
+- Use theme-based styling (Shadcn + Tailwind)
+- Check authentication in Convex
+- Validate all inputs
+- Handle errors properly
+- Follow SOLID principles
+- Use TypeScript strict mode
+- Reference documentation
+- Run quality checks before commit
+- Keep code clean and simple
+
+## Response Format
+
+When generating code:
+1. Ask for clarification if requirements unclear
+2. Reference relevant documentation
+3. Write tests FIRST (TDD approach)
+4. Implement following all rules above
+5. Include error handling
+6. Use proper TypeScript types
+7. Follow established patterns
+8. Add JSDoc comments for complex logic
+9. Suggest quality improvements
+
+## Examples
+
+### Good Code Example
+```typescript
+// ✅ Good: Follows all rules
+interface TodoItemProps {
+  todo: Todo;
+  onDelete: (id: string) => void;
+}
+
+export function TodoItem({ todo, onDelete }: TodoItemProps) {
+  const handleDelete = useCallback(() => {
+    onDelete(todo._id);
+  }, [todo._id, onDelete]);
+  
+  return (
+    <Card className="p-4">
+      <CardContent>
+        <h3 className="text-lg font-semibold">{todo.title}</h3>
+        <Button 
+          variant="destructive" 
+          onClick={handleDelete}
+          aria-label="Delete todo"
+        >
+          Delete
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+### Bad Code Example
+```typescript
+// ❌ Bad: Breaks multiple rules
+export function TodoItem({ todo, onDelete }: any) { // any type
+  return (
+    <div style={{ padding: '20px' }}> {/* inline style */}
+      <h3>{todo.title}</h3>
+      <button onClick={() => onDelete(todo._id)}> {/* not Shadcn */}
+        Delete
+      </button>
+    </div>
+  );
+}
+// Missing: Tests, proper types, Shadcn components, theme styling
+```
+
+## AI Prompt Format
+
+When asked to implement features, follow this format:
+
+1. **Understand Requirements**
+   - Clarify any ambiguities
+   - Identify security implications
+   - Note testing requirements
+
+2. **Write Tests First (TDD)**
+   - Unit tests
+   - Integration tests
+   - Edge cases
+   - Error cases
+
+3. **Implement**
+   - Follow patterns above
+   - Use Shadcn components
+   - Apply SOLID principles
+   - Include error handling
+
+4. **Refactor**
+   - Improve code quality
+   - Remove duplication
+   - Optimize performance
+   - Keep tests green
+
+5. **Audit**
+   - Check against quality checklist
+   - Verify security
+   - Confirm test coverage
+   - Validate types
+
+## Priority Order
+
+1. **Security** - Always first priority
+2. **Tests** - TDD approach
+3. **Type Safety** - Strict TypeScript
+4. **Code Quality** - SOLID, DRY, clean code
+5. **Performance** - Optimize appropriately
+6. **Documentation** - Keep current
+
+## Remember
+
+- Tests are NOT optional - they're required (TDD)
+- Security is NOT negotiable - always check auth and validate input
+- Inline styles are FORBIDDEN - use theme-based styling only
+- Type safety is REQUIRED - no 'any' types
+- SOLID principles ALWAYS apply
+- Documentation is your guide - reference it
+
+## Questions?
+
+If uncertain about any aspect:
+1. Check documentation in `/docs`
+2. Ask for clarification
+3. Reference similar patterns in codebase
+4. Use MCP tools for current best practices
+
+---
+
+These rules ensure high-quality, secure, maintainable code. Follow them for every feature, fix, and refactor.
+
