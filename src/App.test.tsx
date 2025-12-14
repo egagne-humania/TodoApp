@@ -1,17 +1,17 @@
-import { describe, test, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
 describe('App', () => {
-  test('renders Vite + React heading', () => {
+  it('should render the app', () => {
     render(<App />);
-    const heading = screen.getByRole('heading', { name: /vite \+ react/i });
-    expect(heading).toBeInTheDocument();
+    expect(screen.getByText(/component demo/i)).toBeInTheDocument();
   });
 
-  test('renders count button', () => {
+  it('should render ComponentDemo page', () => {
     render(<App />);
-    const button = screen.getByRole('button', { name: /count is 0/i });
-    expect(button).toBeInTheDocument();
+    expect(
+      screen.getByText(/showcase of shadcn ui components/i)
+    ).toBeInTheDocument();
   });
 });
