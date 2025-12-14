@@ -44,33 +44,61 @@ TodoApp is a full-stack web application that demonstrates best practices in mode
 
 ```
 TodoApp/
+├── .cursor/                        # Cursor AI configuration
 ├── docs/                           # Documentation
 │   ├── DEVELOPMENT_GUIDELINES.md   # Development best practices
 │   ├── CODE_QUALITY_CHECKLIST.md   # Quality audit checklist
 │   ├── SECURITY_GUIDELINES.md      # Security practices
 │   ├── TESTING_STRATEGY.md         # TDD and testing guide
-│   └── ARCHITECTURE_PATTERNS.md    # Architecture patterns
-├── TodoApp/                        # Main application
-│   ├── convex/                     # Convex backend
-│   │   ├── auth/                   # Authentication logic
-│   │   ├── todos/                  # Todo CRUD operations
-│   │   ├── schema.ts               # Database schema
-│   │   └── _generated/             # Convex generated files
-│   ├── src/
-│   │   ├── components/             # React components
-│   │   │   ├── ui/                 # Shadcn UI components
-│   │   │   ├── todo/               # Todo-specific components
-│   │   │   └── layout/             # Layout components
-│   │   ├── hooks/                  # Custom React hooks
-│   │   ├── lib/                    # Utility functions
-│   │   ├── types/                  # TypeScript types
-│   │   ├── styles/                 # Global styles and themes
-│   │   └── tests/                  # Test utilities
-│   ├── e2e/                        # End-to-end tests
-│   ├── public/                     # Static assets
-│   └── vite.config.ts              # Vite configuration
-└── README.md                       # This file
+│   ├── ARCHITECTURE_PATTERNS.md    # Architecture patterns
+│   ├── DEPLOYMENT_GUIDE.md         # Deployment procedures
+│   ├── PROJECT_PLAN.md             # Implementation roadmap
+│   └── README.md                   # Documentation index
+├── convex/                         # Convex backend
+│   ├── auth/                       # Authentication logic
+│   ├── todos/                      # Todo CRUD operations
+│   ├── schema.ts                   # Database schema
+│   └── _generated/                 # Convex generated files
+├── src/                            # Frontend source code
+│   ├── components/                 # React components
+│   │   ├── ui/                     # Shadcn UI components
+│   │   ├── todo/                   # Todo-specific components
+│   │   └── layout/                 # Layout components
+│   ├── hooks/                      # Custom React hooks
+│   ├── lib/                        # Utility functions
+│   ├── types/                      # TypeScript types
+│   ├── styles/                     # Global styles and themes
+│   └── tests/                      # Test utilities
+├── e2e/                            # End-to-end tests
+├── public/                         # Static assets
+├── .cursorrules                    # Cursor AI rules
+├── .gitignore                      # Git ignore patterns
+├── CHANGELOG.md                    # Version history
+├── eslint.config.js                # ESLint configuration
+├── index.html                      # HTML entry point
+├── package.json                    # Node dependencies
+├── README.md                       # This file
+├── tsconfig.json                   # TypeScript configuration
+└── vite.config.ts                  # Vite configuration
 ```
+
+## 📋 Implementation Plan
+
+The complete implementation plan is available at [PROJECT_PLAN.md](./docs/PROJECT_PLAN.md).
+
+**Quick Overview**:
+- **8 Phases**: From setup to deployment
+- **39 Tasks**: Detailed task breakdown
+- **Timeline**: 6-8 weeks (single developer)
+- **Approach**: Test-Driven Development (TDD)
+- **Components**: Uses existing Shadcn components
+
+**Available Shadcn Components** (Ready to use):
+- button, card, input, label, checkbox
+- form, dialog, alert-dialog, dropdown-menu
+- sonner (toasts), skeleton (loading)
+
+See [PROJECT_PLAN.md](./docs/PROJECT_PLAN.md) for the complete roadmap with TDD approach, success criteria, and risk management.
 
 ## 🚀 Getting Started
 
@@ -85,7 +113,8 @@ TodoApp/
 
 1. **Clone the repository**
    ```bash
-   cd TodoApp/TodoApp
+   git clone <repository-url>
+   cd TodoApp
    npm install
    ```
 
@@ -100,7 +129,7 @@ TodoApp/
 
 3. **Configure environment variables**
 
-   Create a `.env.local` file in the `TodoApp` directory:
+   Create a `.env.local` file in the project root:
 
    ```env
    # Convex

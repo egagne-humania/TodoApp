@@ -36,7 +36,7 @@ Essential reading for all developers:
    - Performance optimization
    - Anti-patterns to avoid
 
-3. **[Deployment Guide](./DEPLOYMENT_GUIDE.md)** ⭐ NEW
+3. **[Deployment Guide](./DEPLOYMENT_GUIDE.md)**
    - Deployment architecture
    - Branch strategy (main → dev, prod → production)
    - GitHub Actions CI/CD
@@ -44,6 +44,15 @@ Essential reading for all developers:
    - Convex backend deployment
    - Rollback procedures
    - Deployment checklists
+
+4. **[Project Plan](./PROJECT_PLAN.md)** ⭐ NEW
+   - Complete implementation roadmap
+   - 8 phases with 39 tasks
+   - Available Shadcn components list
+   - TDD approach for each task
+   - Timeline (6-8 weeks)
+   - Risk management
+   - Success metrics
 
 ### ✅ Quality Assurance
 

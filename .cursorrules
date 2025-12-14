@@ -246,6 +246,7 @@ Always reference these documents:
 - `/docs/ARCHITECTURE_PATTERNS.md` - Design patterns
 - `/docs/CURSOR_AI_GUIDE.md` - AI development guide
 - `/docs/DEPLOYMENT_GUIDE.md` - Deployment procedures
+- `/docs/PROJECT_PLAN.md` - Implementation roadmap
 - `/docs/QUICK_REFERENCE.md` - Quick reference
 
 ## Before Committing - Run These
