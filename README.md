@@ -1,658 +1,265 @@
-# TodoApp - Enterprise-Grade Todo Application
+# TodoApp
 
-> A production-ready todo application built with modern web technologies, following enterprise best practices, SOLID principles, and Test-Driven Development (TDD).
+Enterprise-grade todo application built with React, TypeScript, Convex, and Shadcn UI, following TDD and SOLID principles.
 
-## 🎯 Project Overview
+## Features
 
-TodoApp is a full-stack web application that demonstrates best practices in modern web development. It features Microsoft Entra ID authentication, real-time data synchronization, and a beautiful, accessible user interface.
+- ✅ Real-time sync across devices
+- 🔐 Enterprise authentication (Microsoft Entra ID)
+- 🎨 Modern UI with Shadcn components
+- 📱 Fully responsive design
+- 🔒 Security-first architecture
+- 🧪 Comprehensive test coverage (TDD)
+- ⚡ High performance
+- ♿ WCAG AA accessible
 
-### Key Features
+## Tech Stack
 
-- ✅ **Real-time Collaboration**: Changes sync instantly across all devices
-- 🔐 **Enterprise Authentication**: Secure Microsoft Entra ID integration
-- 🎨 **Modern UI**: Beautiful, accessible interface with Shadcn UI components
-- 📱 **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
-- 🔒 **Security First**: Built with security best practices from the ground up
-- 🧪 **Fully Tested**: Comprehensive test coverage with TDD approach
-- ⚡ **High Performance**: Optimized for speed and efficiency
-- ♿ **Accessible**: WCAG AA compliant
+- **Frontend**: React 19 + TypeScript 5.9 + Vite 7.2.4
+- **Backend**: Convex BaaS
+- **UI**: Tailwind CSS + Shadcn UI
+- **Auth**: Microsoft Entra ID
+- **Testing**: Vitest + React Testing Library + Playwright
+- **Deploy**: Cloudflare Pages + GitHub Actions
 
-## 🏗️ Tech Stack
-
-### Frontend
-- **React 19.2**: Modern React with latest features
-- **TypeScript 5.9**: Type-safe development
-- **Vite 7.2.4**: Lightning-fast development and builds
-- **Tailwind CSS**: Utility-first styling
-- **Shadcn UI**: High-quality component library
-- **React Testing Library**: Component testing
-- **Playwright**: End-to-end testing
-
-### Backend
-- **Convex**: Backend-as-a-Service with real-time capabilities
-- **TypeScript**: End-to-end type safety
-- **Microsoft Entra ID**: Enterprise authentication
-
-### Development Tools
-- **ESLint**: Code quality and consistency
-- **Prettier**: Code formatting
-- **Vitest**: Unit testing framework
-- **Playwright**: E2E testing
-- **Git**: Version control
-
-## 📁 Project Structure
-
-```
-TodoApp/
-├── .cursor/                        # Cursor AI configuration
-├── docs/                           # Documentation
-│   ├── DEVELOPMENT_GUIDELINES.md   # Development best practices
-│   ├── CODE_QUALITY_CHECKLIST.md   # Quality audit checklist
-│   ├── SECURITY_GUIDELINES.md      # Security practices
-│   ├── TESTING_STRATEGY.md         # TDD and testing guide
-│   ├── ARCHITECTURE_PATTERNS.md    # Architecture patterns
-│   ├── DEPLOYMENT_GUIDE.md         # Deployment procedures
-│   ├── PROJECT_PLAN.md             # Implementation roadmap
-│   └── README.md                   # Documentation index
-├── convex/                         # Convex backend
-│   ├── auth/                       # Authentication logic
-│   ├── todos/                      # Todo CRUD operations
-│   ├── schema.ts                   # Database schema
-│   └── _generated/                 # Convex generated files
-├── src/                            # Frontend source code
-│   ├── components/                 # React components
-│   │   ├── ui/                     # Shadcn UI components
-│   │   ├── todo/                   # Todo-specific components
-│   │   └── layout/                 # Layout components
-│   ├── hooks/                      # Custom React hooks
-│   ├── lib/                        # Utility functions
-│   ├── types/                      # TypeScript types
-│   ├── styles/                     # Global styles and themes
-│   └── tests/                      # Test utilities
-├── e2e/                            # End-to-end tests
-├── public/                         # Static assets
-├── .cursorrules                    # Cursor AI rules
-├── .gitignore                      # Git ignore patterns
-├── CHANGELOG.md                    # Version history
-├── eslint.config.js                # ESLint configuration
-├── index.html                      # HTML entry point
-├── package.json                    # Node dependencies
-├── README.md                       # This file
-├── tsconfig.json                   # TypeScript configuration
-└── vite.config.ts                  # Vite configuration
-```
-
-## 📋 Implementation Plan
-
-The complete implementation plan is available at [PROJECT_PLAN.md](./docs/PROJECT_PLAN.md).
-
-**Quick Overview**:
-- **8 Phases**: From setup to deployment
-- **39 Tasks**: Detailed task breakdown
-- **Timeline**: 6-8 weeks (single developer)
-- **Approach**: Test-Driven Development (TDD)
-- **Components**: Uses existing Shadcn components
-
-**Available Shadcn Components** (Ready to use):
-- button, card, input, label, checkbox
-- form, dialog, alert-dialog, dropdown-menu
-- sonner (toasts), skeleton (loading)
-
-See [PROJECT_PLAN.md](./docs/PROJECT_PLAN.md) for the complete roadmap with TDD approach, success criteria, and risk management.
-
-## 🚀 Getting Started
+## Quick Start
 
 ### Prerequisites
 
-- **Node.js**: Version 20 or higher
-- **npm**: Version 10 or higher
-- **Microsoft Entra ID**: For authentication (or use mock auth in development)
-- **Convex Account**: Sign up at [convex.dev](https://convex.dev)
+- Node.js 20+
+- npm 10+
+- Convex account ([convex.dev](https://convex.dev))
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd TodoApp
-   npm install
-   ```
+```bash
+# Clone and install
+git clone <repository-url>
+cd TodoApp
+npm install
 
-2. **Set up Convex**
-   ```bash
-   npx convex dev
-   ```
-   This will:
-   - Initialize Convex in your project
-   - Create a new Convex deployment
-   - Start the Convex dev server
+# Setup Convex
+npx convex dev
 
-3. **Configure environment variables**
+# Configure environment
+cp .env.example .env.local
+# Edit .env.local with your values
 
-   Create a `.env.local` file in the project root:
+# Start development
+npm run dev
+```
 
-   ```env
-   # Convex
-   VITE_CONVEX_URL=your-convex-deployment-url
+Visit `http://localhost:5173`
 
-   # Microsoft Entra ID
-   VITE_AZURE_CLIENT_ID=your-client-id
-   VITE_AZURE_TENANT_ID=your-tenant-id
-   VITE_AZURE_AUTHORITY=https://login.microsoftonline.com/your-tenant-id
-   VITE_AZURE_REDIRECT_URI=http://localhost:5173/auth/callback
-   ```
+### Environment Variables
 
-4. **Start the development server**
-   ```bash
-   npm run dev
-   ```
+Create `.env.local`:
 
-   The application will be available at `http://localhost:5173`
+```bash
+VITE_CONVEX_URL=your-convex-url
+VITE_MSAL_CLIENT_ID=your-azure-client-id
+VITE_MSAL_AUTHORITY=https://login.microsoftonline.com/tenant-id
+VITE_MSAL_REDIRECT_URI=http://localhost:5173
+```
 
-### Development Workflow
-
-1. **Start Convex dev server** (in one terminal)
-   ```bash
-   npx convex dev
-   ```
-
-2. **Start Vite dev server** (in another terminal)
-   ```bash
-   npm run dev
-   ```
-
-3. **Run tests** (optional, in another terminal)
-   ```bash
-   npm test
-   ```
-
-## 🧪 Testing
-
-This project follows Test-Driven Development (TDD) principles. All features must have tests written before implementation.
+## Development
 
 ### Run Tests
 
 ```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm test -- --watch
-
-# Run tests with coverage
-npm test -- --coverage
-
-# Run E2E tests
-npm run test:e2e
-
-# Run specific test file
-npm test -- TodoList.test.tsx
+npm test                # Unit tests
+npm test -- --coverage  # With coverage
+npm run test:e2e        # E2E tests
 ```
 
-### Test Coverage Goals
+### Quality Checks
 
-- **Overall**: >80%
-- **Critical paths**: 100%
-- **Business logic**: >90%
-- **UI components**: >70%
+```bash
+npm run lint            # ESLint
+npm run build           # Build
+npx tsc --noEmit        # Type check
+```
 
-See [TESTING_STRATEGY.md](./docs/TESTING_STRATEGY.md) for comprehensive testing guidelines.
+**All must pass before committing.**
 
-## 📋 Development Guidelines
+### Development Workflow
 
-This project follows enterprise-grade development practices:
+1. Write tests first (TDD)
+2. Implement minimal code to pass
+3. Refactor while keeping tests green
+4. Run quality checks
+5. Commit with conventional message
 
-### Core Principles
+```bash
+# Example
+git checkout -b feature/my-feature
+# ... develop with TDD ...
+npm test && npm run lint && npm run build
+git commit -m "feat: add feature"
+git push origin feature/my-feature
+```
 
-1. **SOLID Principles**: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
-2. **DRY**: Don't Repeat Yourself
-3. **KISS**: Keep It Simple, Stupid
-4. **YAGNI**: You Aren't Gonna Need It
-5. **TDD**: Test-Driven Development
+## Documentation
 
-### Code Quality Standards
+All documentation is in `/docs`:
 
-- **TypeScript**: Strict mode enabled, no `any` types
-- **ESLint**: Zero errors, address warnings
-- **Testing**: >80% coverage, all tests passing
-- **Security**: Follow security guidelines
-- **Accessibility**: WCAG AA compliance
+- **[PROJECT_PLAN.md](./docs/PROJECT_PLAN.md)** - Implementation roadmap
+- **[DEVELOPMENT.md](./docs/DEVELOPMENT.md)** - Coding practices & guidelines
+- **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - Design patterns
+- **[DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - CI/CD & deployment
 
-### Required Reading
+See [docs/README.md](./docs/README.md) for full documentation index.
 
-Before contributing, please read:
+## Core Principles
 
-1. 📘 [Development Guidelines](./docs/DEVELOPMENT_GUIDELINES.md) - SOLID, DRY, and best practices
-2. ✅ [Code Quality Checklist](./docs/CODE_QUALITY_CHECKLIST.md) - Quality audit for every task
-3. 🔒 [Security Guidelines](./docs/SECURITY_GUIDELINES.md) - Security best practices
-4. 🧪 [Testing Strategy](./docs/TESTING_STRATEGY.md) - TDD and testing guidelines
-5. 🏛️ [Architecture Patterns](./docs/ARCHITECTURE_PATTERNS.md) - Design patterns and architecture
-6. 🚀 [Deployment Guide](./docs/DEPLOYMENT_GUIDE.md) - CI/CD and deployment procedures
+### Test-Driven Development (TDD)
+- Write tests before implementation
+- Follow Red-Green-Refactor cycle
+- Target >80% coverage
 
-## 🛡️ Security
+### SOLID Principles
+- Single Responsibility
+- Open/Closed
+- Liskov Substitution
+- Interface Segregation
+- Dependency Inversion
 
-Security is a top priority. All code must pass security audits before deployment.
-
-### Security Checklist
-
-- [ ] Authentication verified on all protected routes
-- [ ] Authorization checks in backend
-- [ ] Input validation comprehensive
-- [ ] No secrets in code or version control
-- [ ] XSS prevention implemented
-- [ ] HTTPS only in production
-- [ ] Dependencies regularly updated
-
-See [SECURITY_GUIDELINES.md](./docs/SECURITY_GUIDELINES.md) for detailed security practices.
-
-## 🎨 Styling Guidelines
+### Security First
+- Authentication on all protected endpoints
+- Input validation (backend + frontend)
+- No secrets in code
+- Secure error handling
 
 ### Theme-Based Styling
+- **Never** use inline styles
+- **Always** use Shadcn components
+- **Always** use Tailwind classes
+- **Always** use theme variables
 
-- **ALWAYS** use Shadcn UI components as the base
-- **NEVER** use inline styles
-- **ALWAYS** apply styling through themes and Tailwind classes
-- Customize themes in `src/styles/theme.css`
-
-```typescript
-// ❌ Bad: Inline styles
-<div style={{ backgroundColor: 'blue' }}>
-
-// ✅ Good: Theme-based classes
-<div className="bg-primary">
-
-// ✅ Better: Shadcn component
-<Card className="bg-card">
-```
-
-### Shadcn UI
-
-Use Shadcn MCP tools to discover and implement components:
-
-```bash
-# Search for components
-mcp_shadcn_search_items_in_registries
-
-# View component details
-mcp_shadcn_view_items_in_registries
-
-# Get usage examples
-mcp_shadcn_get_item_examples_from_registries
-```
-
-## 📊 Code Quality Audits
-
-### Before Each Commit
-
-Run these commands to ensure code quality:
-
-```bash
-# TypeScript compilation
-npm run build
-
-# Linting
-npm run lint
-
-# Tests
-npm test
-
-# Type checking
-npx tsc --noEmit
-```
-
-### Quality Gates
-
-All of the following must pass:
-
-- ✅ All tests passing
-- ✅ No TypeScript errors
-- ✅ No ESLint errors
-- ✅ Test coverage >80%
-- ✅ Security audit passed
-- ✅ Accessibility audit passed
-
-See [CODE_QUALITY_CHECKLIST.md](./docs/CODE_QUALITY_CHECKLIST.md) for complete checklist.
-
-## 🏗️ Architecture
-
-### Layered Architecture
+## Project Structure
 
 ```
-┌─────────────────────────────────┐
-│   Presentation Layer            │
-│   (React Components)            │
-├─────────────────────────────────┤
-│   Business Logic Layer          │
-│   (Custom Hooks, Services)      │
-├─────────────────────────────────┤
-│   Data Access Layer             │
-│   (Convex Queries/Mutations)    │
-├─────────────────────────────────┤
-│   Data Layer                    │
-│   (Convex Database)             │
-└─────────────────────────────────┘
+TodoApp/
+├── docs/              # Documentation
+├── src/               # Frontend
+│   ├── components/   # React components
+│   ├── hooks/        # Custom hooks
+│   ├── lib/          # Utilities
+│   └── types/        # TypeScript types
+├── convex/           # Backend (Convex)
+│   ├── schema.ts     # Database schema
+│   └── todos.ts      # CRUD operations
+└── e2e/              # E2E tests
 ```
 
-### Key Patterns
-
-- **Container/Presentational**: Separate data from UI
-- **Custom Hooks**: Reusable stateful logic
-- **Repository Pattern**: Abstract data access
-- **Service Layer**: Business logic encapsulation
-- **Provider Pattern**: Global state management
-
-See [ARCHITECTURE_PATTERNS.md](./docs/ARCHITECTURE_PATTERNS.md) for detailed architecture guidance.
-
-## 🔄 Workflow
-
-### Feature Development Workflow
-
-1. **Plan**: Review requirements and design
-2. **Write Tests**: Create failing tests (TDD)
-3. **Implement**: Write minimal code to pass tests
-4. **Refactor**: Improve code while keeping tests green
-5. **Audit**: Run quality, security, and regression checks
-6. **Document**: Update documentation as needed
-7. **Review**: Self-review before creating PR
-8. **PR**: Create pull request with detailed description
-9. **Deploy**: Merge and deploy after approval
-
-### Git Workflow
-
-#### Commit Messages
-
-Follow conventional commits:
-
-```
-type(scope): subject
-
-body (optional)
-
-footer (optional)
-```
-
-**Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-
-**Example**:
-```
-feat(todos): add filter by priority
-
-- Add priority field to todo schema
-- Implement priority filter in UI
-- Add tests for priority filtering
-
-Closes #123
-```
-
-#### Branch Naming
-
-- `feature/description` - New features
-- `fix/description` - Bug fixes
-- `refactor/description` - Code refactoring
-- `docs/description` - Documentation updates
-
-## 📦 Deployment
-
-### Deployment Strategy
-
-The TodoApp uses **continuous deployment** with GitHub Actions:
-
-- **Frontend**: Cloudflare Pages (CDN-optimized)
-- **Backend**: Convex (serverless)
-- **CI/CD**: GitHub Actions (automated)
+## Deployment
 
 ### Branch Strategy
 
-```
-main branch  →  Development Environment
-  ↓ (Auto-deploy on push)
-  └─→ Cloudflare (dev) + Convex (dev)
+- **`main` → Development**: Auto-deploys to dev environment
+- **`prod` → Production**: Auto-deploys to production
 
-prod branch  →  Production Environment
-  ↓ (Auto-deploy on push)
-  └─→ Cloudflare (prod) + Convex (prod)
-```
-
-### Development Deployment (Automatic)
-
-When code is merged to `main` branch:
-
-1. **GitHub Actions triggers** automatically
-2. **CI runs**: Tests, linting, type checking
-3. **Backend deploys** to Convex development
-4. **Frontend deploys** to Cloudflare Pages development
-5. **Accessible at**: `https://dev.todoapp.yourdomain.com`
+### Deploy to Development
 
 ```bash
-# Development workflow
-git checkout -b feature/my-feature
-# ... develop with TDD ...
-git push origin feature/my-feature
-# Create PR to main → Review → Merge
-# Automatic deployment to dev! ✅
+# Merge PR to main → automatic deployment
 ```
 
-### Production Deployment (Automatic)
-
-When code is merged to `prod` branch:
-
-1. **Create PR** from `main` to `prod`
-2. **Extended review**: 2+ approvals required
-3. **Merge to prod** triggers deployment
-4. **GitHub Actions deploys** to production
-5. **Accessible at**: `https://todoapp.yourdomain.com`
+### Deploy to Production
 
 ```bash
-# Production workflow
-# After testing in dev environment
-git checkout main
-git pull origin main
-git checkout prod
-git pull origin prod
-# Create PR from main to prod
-# Get approvals → Merge
-# Automatic deployment to prod! ✅
+# Create PR: main → prod
+# Get 2+ approvals
+# Merge → automatic deployment
 ```
 
-### Local Build (for testing)
+See [DEPLOYMENT.md](./docs/DEPLOYMENT.md) for detailed setup.
 
-```bash
-# Build locally
-npm run build
+## Contributing
 
-# Preview production build
-npm run preview
-```
+Before contributing:
 
-### Required GitHub Secrets
+1. Read [DEVELOPMENT.md](./docs/DEVELOPMENT.md)
+2. Follow TDD approach (tests first)
+3. Apply SOLID principles
+4. Use theme-based styling only
+5. Run quality checks before committing
 
-Set these in your repository settings:
-
-**Cloudflare**:
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
-
-**Convex**:
-- `CONVEX_DEPLOY_KEY_DEV`
-- `CONVEX_DEPLOY_KEY_PROD`
-
-**Environment Variables**:
-- Dev: `VITE_CONVEX_URL_DEV`, `VITE_AZURE_CLIENT_ID_DEV`, etc.
-- Prod: `VITE_CONVEX_URL_PROD`, `VITE_AZURE_CLIENT_ID_PROD`, etc.
-
-### Deployment Checklist
-
-**Before deploying to dev (main)**:
-- [ ] All tests pass
-- [ ] No TypeScript/ESLint errors
-- [ ] Code reviewed (1+ approval)
-- [ ] Feature tested locally
-
-**Before deploying to prod**:
-- [ ] Tested in dev environment
-- [ ] Security review completed
-- [ ] Performance verified
-- [ ] 2+ approvals received
-- [ ] Release notes prepared
-- [ ] Rollback plan ready
-
-See [DEPLOYMENT_GUIDE.md](./docs/DEPLOYMENT_GUIDE.md) for comprehensive deployment documentation.
-
-## 🤝 Contributing
-
-### Before Contributing
-
-1. Read all documentation in `/docs`
-2. Understand SOLID principles
-3. Familiarize yourself with TDD
-4. Review architecture patterns
-5. Set up development environment
-
-### Contribution Process
-
-1. **Create Issue**: Describe the feature or bug
-2. **Get Approval**: Wait for maintainer approval
-3. **Create Branch**: Follow naming conventions
-4. **Write Tests**: TDD approach
-5. **Implement**: Follow guidelines
-6. **Quality Check**: Run all audits
-7. **Create PR**: Detailed description with screenshots
-8. **Address Feedback**: Respond to review comments
-9. **Merge**: After approval
-
-### Code Review Checklist
-
-- [ ] Tests written and passing
-- [ ] Code follows SOLID principles
-- [ ] No security vulnerabilities
-- [ ] Accessibility requirements met
-- [ ] Documentation updated
-- [ ] Performance acceptable
-- [ ] No TypeScript/ESLint errors
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-#### Port Already in Use
-
-```bash
-# Kill process on port 5173
-lsof -ti:5173 | xargs kill -9
-```
-
-#### Convex Not Connecting
-
-1. Check `.env.local` has correct `VITE_CONVEX_URL`
-2. Ensure `npx convex dev` is running
-3. Verify network connection
-
-#### Tests Failing
-
-1. Check test environment setup
-2. Ensure all dependencies installed
-3. Clear test cache: `npm test -- --clearCache`
-
-#### Build Errors
-
-1. Clean install: `rm -rf node_modules && npm install`
-2. Clear cache: `rm -rf .vite`
-3. Check TypeScript errors: `npx tsc --noEmit`
-
-## 📚 Resources
-
-### Documentation
-
-- [React](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Convex](https://docs.convex.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Shadcn UI](https://ui.shadcn.com/)
-- [Vite](https://vitejs.dev/)
-- [Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/)
-
-### Best Practices
-
-- [SOLID Principles](https://en.wikipedia.org/wiki/SOLID)
-- [Clean Code](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
-- [Test-Driven Development](https://martinfowler.com/bliki/TestDrivenDevelopment.html)
-- [React Best Practices](https://react.dev/learn/thinking-in-react)
-
-## 📝 License
-
-[Add your license here]
-
-## 👥 Team
-
-[Add team information here]
-
-## 📞 Support
-
-For questions or issues:
-
-1. Check documentation in `/docs`
-2. Search existing issues
-3. Create a new issue with detailed information
-
----
-
-## 🎯 Project Goals
-
-This project aims to demonstrate:
-
-- **Enterprise-grade code quality**
-- **Security-first approach**
-- **Test-driven development**
-- **Modern web development practices**
-- **Accessible and performant applications**
-- **Clean architecture and design patterns**
-
-## 🔮 Future Enhancements
-
-- [ ] Real-time collaboration features
-- [ ] Todo sharing and permissions
-- [ ] Rich text editing
-- [ ] File attachments
-- [ ] Email notifications
-- [ ] Mobile applications
-- [ ] Offline support
-- [ ] Analytics dashboard
-- [ ] API for third-party integrations
-- [ ] Internationalization (i18n)
-
-## ⚡ Quick Reference
-
-### Essential Commands
+## Scripts
 
 ```bash
 # Development
 npm run dev              # Start dev server
-npx convex dev          # Start Convex dev server
+npx convex dev          # Start Convex
 
 # Testing
 npm test                # Run tests
-npm test -- --coverage  # Run with coverage
-npm run test:e2e        # Run E2E tests
+npm test -- --coverage  # With coverage
+npm run test:e2e        # E2E tests
 
 # Quality
-npm run lint            # Run ESLint
+npm run lint            # ESLint
 npm run build           # Build for production
-npx tsc --noEmit        # Type check
+npx tsc --noEmit        # Type check only
 
-# Documentation
-npm run docs            # Generate docs (if configured)
+# Preview
+npm run preview         # Preview production build
 ```
 
-### Important Files
+## Quality Standards
 
-- `.env.local` - Environment variables (DO NOT COMMIT)
-- `convex/schema.ts` - Database schema
-- `vite.config.ts` - Vite configuration
-- `tsconfig.json` - TypeScript configuration
-- `eslint.config.js` - ESLint rules
+- ✅ Test coverage >80%
+- ✅ Zero TypeScript errors
+- ✅ Zero ESLint errors
+- ✅ All tests passing
+- ✅ WCAG AA accessible
+- ✅ Lighthouse score >90
+
+## Common Commands
+
+```bash
+# Before committing
+npm test && npm run lint && npm run build && npx tsc --noEmit
+
+# If tests fail
+npm test -- --watch
+
+# If build fails
+rm -rf node_modules && npm install
+
+# If port in use
+lsof -ti:5173 | xargs kill -9
+```
+
+## Resources
+
+### External Documentation
+- [React](https://react.dev/)
+- [Convex](https://docs.convex.dev/)
+- [Shadcn UI](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vitest](https://vitest.dev/)
+- [Playwright](https://playwright.dev/)
+
+### Internal Documentation
+- [docs/README.md](./docs/README.md) - Documentation index
+- [docs/PROJECT_PLAN.md](./docs/PROJECT_PLAN.md) - Roadmap
+- [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md) - Development guide
+- [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) - Architecture patterns
+- [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) - Deployment guide
+
+## License
+
+[Add your license here]
+
+## Support
+
+For issues or questions:
+1. Check documentation in `/docs`
+2. Search existing issues
+3. Create new issue with details
 
 ---
 
-**Built with ❤️ using modern web technologies and best practices**
-
-For detailed guidance on any aspect of development, please refer to the comprehensive documentation in the `/docs` folder.
+**Built with modern web technologies and enterprise best practices**
