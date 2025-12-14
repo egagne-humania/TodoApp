@@ -58,10 +58,12 @@ describe('TodoList', () => {
     render(
       <TodoList todos={mockTodos} onToggle={vi.fn()} onDelete={vi.fn()} />
     );
-    const titles = screen
-      .getAllByRole('heading', { level: 3 })
-      .map((h) => h.textContent);
-    expect(titles).toEqual(['First Todo', 'Second Todo']);
+    // Check that both todos are rendered (structure now includes section headers)
+    expect(screen.getByText('First Todo')).toBeInTheDocument();
+    expect(screen.getByText('Second Todo')).toBeInTheDocument();
+    // Verify sections are shown
+    expect(screen.getByText(/active tasks/i)).toBeInTheDocument();
+    expect(screen.getByText(/completed tasks/i)).toBeInTheDocument();
   });
 
   it('should display loading skeleton when loading', () => {

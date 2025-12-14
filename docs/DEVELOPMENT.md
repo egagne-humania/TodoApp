@@ -8,9 +8,22 @@ This guide covers all development practices for TodoApp: coding standards, testi
 
 - **Frontend**: React 19.2 + TypeScript 5.9 + Vite 7.2.4
 - **Backend**: Convex BaaS
-- **Styling**: Tailwind CSS + Shadcn UI
+- **Styling**: **Tailwind CSS v4.1.18** + Shadcn UI
+  - ⚠️ **IMPORTANT**: Uses Tailwind v4 (NOT v3) - completely different syntax
+  - Always check Context7 for v4-specific syntax before writing CSS
 - **Auth**: Microsoft Entra ID
 - **Testing**: Vitest + React Testing Library + Playwright
+
+### Version-Specific Warnings
+
+**Tailwind CSS v4** has breaking changes from v3:
+- ❌ v3: `@tailwind base;` → ✅ v4: `@import "tailwindcss";`
+- ❌ v3: `@layer base` → ✅ v4: `@theme`
+- ❌ v3: HSL colors → ✅ v4: OKLCH colors
+- ❌ v3: `--primary` → ✅ v4: `--color-primary`
+- ❌ v3: Complex config → ✅ v4: Minimal config
+
+**Always use Context7 MCP to verify syntax for installed versions!**
 
 ## Core Principles
 
@@ -54,21 +67,50 @@ function useFormValidation<T>(rules: ValidationRules<T>) {
 
 ## Styling Rules
 
-### Critical: Theme-Based Only
+### Critical: Tailwind CSS v4 Only
 
+**BEFORE writing any CSS:**
+1. ✅ **Use Context7 MCP** to verify Tailwind v4 syntax
+2. ✅ Check `package.json` for version (`tailwindcss": "^4.1.18"`)
+3. ✅ Review existing `src/index.css` for patterns
+
+**Tailwind v4 Syntax (in `index.css`)**:
+```css
+/* ✅ v4 - CORRECT */
+@import "tailwindcss";
+
+@theme {
+  --color-primary: oklch(62% 0.25 250);
+  --color-background: oklch(100% 0 0);
+}
+
+/* ❌ v3 - WRONG (don't use!) */
+@tailwind base;
+@layer base {
+  :root {
+    --primary: 240 5.9% 10%;
+  }
+}
+```
+
+**Component Usage**:
+```typescript
+// ✅ Good - Use Tailwind utilities with theme colors
+<Card className="bg-card text-foreground p-4">
+  <CardContent>
+
+// ❌ Bad - Inline styles
+<div style={{ backgroundColor: 'blue', padding: '10px' }}>
+
+// ❌ Bad - Custom CSS classes without Tailwind
+<div className="my-custom-blue-box">
+```
+
+**Theme-Based Only**:
 - **NEVER** use inline styles (`style={{...}}`)
 - **ALWAYS** use Shadcn components
 - **ALWAYS** use Tailwind utility classes
-- **ALWAYS** use theme variables
-
-```typescript
-// ❌ Bad
-<div style={{ backgroundColor: 'blue', padding: '10px' }}>
-
-// ✅ Good
-<Card className="bg-card p-4">
-  <CardContent>
-```
+- **ALWAYS** use theme variables (`var(--color-primary)`)
 
 ### Responsive Design
 
@@ -76,6 +118,14 @@ Use Tailwind breakpoints:
 ```typescript
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 ```
+
+### Debugging Styling Issues
+
+If styles aren't appearing:
+1. Check dev server logs for CSS compilation errors
+2. Verify Tailwind version matches syntax (v4 != v3)
+3. Use Browser MCP to visually inspect rendered CSS
+4. Check that `index.css` is imported in `main.tsx`
 
 ## TypeScript Standards
 

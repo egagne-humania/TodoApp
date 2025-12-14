@@ -16,7 +16,7 @@ describe('TodoForm', () => {
 
   it('should render form with priority select', () => {
     render(<TodoForm onSubmit={vi.fn()} />);
-    expect(screen.getByText(/priority/i)).toBeInTheDocument();
+    expect(screen.getByText(/priority level/i)).toBeInTheDocument();
   });
 
   it('should render submit button', () => {

@@ -2,7 +2,9 @@
 
 ## Project Overview
 
-Enterprise-grade TodoApp built with React + TypeScript + Convex + Tailwind + Shadcn UI, following TDD, SOLID principles, and security-first development.
+Enterprise-grade TodoApp built with React 19 + TypeScript 5.9 + Convex + **Tailwind CSS v4** + Shadcn UI, following TDD, SOLID principles, and security-first development.
+
+**CRITICAL**: This project uses **Tailwind CSS v4**, which has completely different syntax from v3. Always use Context7 MCP to verify current syntax.
 
 ## Core Rules
 
@@ -28,10 +30,26 @@ Apply to all code:
 - All variables properly typed
 
 ### 4. Styling (CRITICAL)
+
+**IMPORTANT**: This project uses **Tailwind CSS v4**, not v3!
+
+**Tailwind v4 Syntax**:
+- Use `@import "tailwindcss"` (NOT `@tailwind base/components/utilities`)
+- Use `@theme` blocks (NOT `@layer base` for CSS variables)
+- Use OKLCH colors (NOT HSL)
+- Use `--color-*` naming (NOT `--*` alone)
+- Simplified config (no `theme.extend.colors` needed)
+
+**Before writing CSS**:
+1. **ALWAYS** use Context7 MCP to check Tailwind v4 syntax
+2. Check `package.json` for version
+3. Verify existing `index.css` patterns
+
+**Component Styling**:
 - **NEVER** use inline styles (`style={{...}}`)
 - **ALWAYS** use Shadcn UI components as base
 - **ALWAYS** use Tailwind utility classes
-- **ALWAYS** use theme variables from theme.css
+- **ALWAYS** use theme variables (`var(--color-primary)`)
 
 ```typescript
 // ❌ FORBIDDEN
@@ -203,11 +221,29 @@ Reference these for detailed guidance:
 - **`/docs/DEPLOYMENT.md`** - Deployment and CI/CD
 - **`/docs/PROJECT_PLAN.md`** - Implementation roadmap
 
-## MCP Tools
+## MCP Tools (MANDATORY)
 
+### Context7 MCP - ALWAYS Use First
+**CRITICAL**: Before using ANY library syntax, use Context7 to verify:
+1. **Installed version** (e.g., Tailwind v4 vs v3)
+2. **Current syntax** (major versions have breaking changes)
+3. **Best practices** for that specific version
+
+Example: Check Tailwind v4 documentation before writing CSS:
+```
+Use Context7: "Tailwind CSS v4 @theme syntax"
+```
+
+### Other MCP Tools
 - **Convex MCP**: Backend operations (status, data, functions, logs)
 - **Shadcn MCP**: Component search and installation
-- **Context7 MCP**: Current library documentation
+- **Browser MCP**: Visual verification of styling
+
+### Workflow
+1. **Context7** → Check library version and syntax
+2. **Implement** → Write code using correct syntax
+3. **Browser MCP** → Visually verify results
+4. **Tests** → Ensure functionality
 
 ## Example Code
 
@@ -258,14 +294,16 @@ export function TodoItem({ todo, onDelete }: any) { // ❌ any type
 ## Response Format
 
 When generating code:
-1. Clarify requirements if unclear
-2. Reference documentation when relevant
-3. Write tests FIRST (TDD)
-4. Implement following all rules
-5. Include error handling
-6. Use proper TypeScript types
-7. Follow established patterns
-8. Add comments for complex logic
+1. **FIRST**: Check library versions with Context7 if using external libraries
+2. Clarify requirements if unclear
+3. Reference documentation when relevant
+4. Write tests FIRST (TDD)
+5. Implement following all rules (including correct library syntax)
+6. Include error handling
+7. Use proper TypeScript types
+8. Follow established patterns
+9. Add comments for complex logic
+10. Verify visually with Browser MCP when styling
 
 ## Priority Order
 

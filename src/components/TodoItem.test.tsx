@@ -85,9 +85,13 @@ describe('TodoItem', () => {
   });
 
   it('should display due date when provided', () => {
+    // Use a future date to avoid "Overdue"
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 5);
+    
     const todoWithDueDate = {
       ...mockTodo,
-      dueDate: new Date('2024-12-31'),
+      dueDate: futureDate,
     };
     render(
       <TodoItem
@@ -96,7 +100,8 @@ describe('TodoItem', () => {
         onDelete={vi.fn()}
       />
     );
-    expect(screen.getByText(/due:/i)).toBeInTheDocument();
+    // Should show relative time like "Due in 5 days"
+    expect(screen.getByText(/due in \d+ days?/i)).toBeInTheDocument();
   });
 
   it('should apply different styling for different priorities', () => {
@@ -104,6 +109,6 @@ describe('TodoItem', () => {
       <TodoItem todo={mockTodo} onToggle={vi.fn()} onDelete={vi.fn()} />
     );
     const badge = screen.getByText('medium');
-    expect(badge).toHaveClass('bg-secondary');
+    expect(badge).toHaveClass('priority-medium');
   });
 });
