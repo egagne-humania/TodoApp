@@ -26,9 +26,16 @@ export function ThemeProvider({
   storageKey = 'todoapp-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  );
+  const [theme, setTheme] = useState<Theme>(() => {
+    const stored = localStorage.getItem(storageKey) as Theme;
+    // Only use stored value if it's valid, otherwise use defaultTheme
+    if (stored && ['light', 'dark', 'system'].includes(stored)) {
+      return stored;
+    }
+    // Set the default theme in localStorage for consistency
+    localStorage.setItem(storageKey, defaultTheme);
+    return defaultTheme;
+  });
 
   useEffect(() => {
     const root = window.document.documentElement;

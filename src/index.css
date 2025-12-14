@@ -15,10 +15,10 @@
   --color-primary-foreground: oklch(100% 0 0);
   --color-secondary: oklch(97% 0.005 250);
   --color-secondary-foreground: oklch(20% 0.01 250);
-  --color-muted: oklch(97% 0.005 250);
+  --color-muted: oklch(95% 0.005 250);
   --color-muted-foreground: oklch(48% 0.01 250);
-  --color-accent: oklch(60% 0.14 200);
-  --color-accent-foreground: oklch(100% 0 0);
+  --color-accent: oklch(93% 0.01 250);
+  --color-accent-foreground: oklch(15% 0.01 250);
   --color-destructive: oklch(58% 0.22 25);
   --color-destructive-foreground: oklch(100% 0 0);
   --color-border: oklch(90% 0.005 250);
@@ -39,28 +39,28 @@
   --radius: 0.5rem;
 }
 
-/* Dark Mode Theme - Reference external CSS variables */
+/* Light Mode Theme - Set explicit values */
 :root {
-  /* Light mode values that can be overridden */
-  --bg: var(--color-background);
-  --fg: var(--color-foreground);
-  --card-bg: var(--color-card);
-  --card-fg: var(--color-card-foreground);
-  --popover-bg: var(--color-popover);
-  --popover-fg: var(--color-popover-foreground);
-  --primary-bg: var(--color-primary);
-  --primary-fg: var(--color-primary-foreground);
-  --secondary-bg: var(--color-secondary);
-  --secondary-fg: var(--color-secondary-foreground);
-  --muted-bg: var(--color-muted);
-  --muted-fg: var(--color-muted-foreground);
-  --accent-bg: var(--color-accent);
-  --accent-fg: var(--color-accent-foreground);
-  --destructive-bg: var(--color-destructive);
-  --destructive-fg: var(--color-destructive-foreground);
-  --bdr: var(--color-border);
-  --inp: var(--color-input);
-  --rng: var(--color-ring);
+  /* Light mode values - explicit for better control */
+  --bg: oklch(99% 0 0);
+  --fg: oklch(15% 0.01 250);
+  --card-bg: oklch(100% 0 0);
+  --card-fg: oklch(15% 0.01 250);
+  --popover-bg: oklch(100% 0 0);
+  --popover-fg: oklch(15% 0.01 250);
+  --primary-bg: oklch(55% 0.18 250);
+  --primary-fg: oklch(100% 0 0);
+  --secondary-bg: oklch(97% 0.005 250);
+  --secondary-fg: oklch(20% 0.01 250);
+  --muted-bg: oklch(95% 0.005 250);
+  --muted-fg: oklch(48% 0.01 250);
+  --accent-bg: oklch(90% 0.005 250);
+  --accent-fg: oklch(15% 0.01 250);
+  --destructive-bg: oklch(58% 0.22 25);
+  --destructive-fg: oklch(100% 0 0);
+  --bdr: oklch(90% 0.005 250);
+  --inp: oklch(90% 0.005 250);
+  --rng: oklch(55% 0.18 250);
 }
 
 /* Override with dark colors when .dark class is present */

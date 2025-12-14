@@ -141,9 +141,8 @@ export function TodoForm({ onSubmit }: TodoFormProps) {
                   <SelectItem 
                     key={option.value} 
                     value={option.value}
-                    className="cursor-pointer"
                   >
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-2 pointer-events-none">
                       <span className={`h-2 w-2 rounded-full ${
                         option.value === 'low' ? 'bg-success' :
                         option.value === 'medium' ? 'bg-warning' :

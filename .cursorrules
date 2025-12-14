@@ -166,16 +166,27 @@ function FeaturePresenter({ data, onAction }: FeaturePresenterProps) {
 }
 ```
 
-## Before Committing
+## Before Completing ANY Task
 
-Run these commands - **ALL must pass**:
+**MANDATORY VERIFICATION STEPS - ALL must pass:**
 
 ```bash
-npm test                # Tests pass
-npm run lint            # No ESLint errors
-npm run build           # Build succeeds
-npx tsc --noEmit        # No TypeScript errors
+npm test                                      # Tests pass
+npm run lint                                  # No ESLint errors
+npm run build                                 # Build succeeds
+npx tsc --noEmit                             # No TypeScript errors (frontend)
+npx tsc -p convex/tsconfig.json --noEmit     # No Convex TypeScript errors
+# Check Convex dev terminal for: ✔ Convex functions ready!
 ```
+
+**FOR UI/FRONTEND TASKS - ALSO REQUIRED:**
+1. Open browser at http://localhost:5173/
+2. Check browser console (F12) for JavaScript errors
+3. Verify page renders correctly (not blank)
+4. Test user interactions actually work
+5. **If you cannot access browser: ASK USER to verify and DO NOT declare complete until confirmed**
+
+**See `/docs/QUALITY_STANDARDS.md` for full checklist**
 
 ## Quality Checklist
 
