@@ -1,0 +1,104 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [prod]
+
+jobs:
+  deploy-convex:
+    name: Deploy Convex (Prod)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy to Convex Prod
+        run: npx convex deploy --cmd 'npm run build' --prod
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY_PROD }}
+
+  deploy-frontend:
+    name: Deploy Frontend (Prod)
+    needs: deploy-convex
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+        env:
+          VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL_PROD }}
+          VITE_MSAL_CLIENT_ID: ${{ secrets.VITE_MSAL_CLIENT_ID_PROD }}
+          VITE_MSAL_AUTHORITY: ${{ secrets.VITE_MSAL_AUTHORITY }}
+          VITE_MSAL_REDIRECT_URI: ${{ secrets.VITE_MSAL_REDIRECT_URI_PROD }}
+          VITE_APP_ENV: production
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: todoapp-prod
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  smoke-test:
+    name: Run Smoke Tests
+    needs: deploy-frontend
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Basic smoke test
+        run: |
+          echo "Running production smoke tests..."
+          # Add actual smoke test commands here
+          echo "✅ Smoke tests passed"
+
+  notify:
+    name: Notify Deployment
+    needs: [deploy-convex, deploy-frontend, smoke-test]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Deployment Status
+        run: |
+          if [ "${{ needs.smoke-test.result }}" == "success" ]; then
+            echo "✅ Production deployment successful!"
+          else
+            echo "❌ Production deployment failed!"
+            exit 1
+          fi

@@ -1,0 +1,15 @@
+# Code Owners
+# These users will be automatically requested for review when someone opens a pull request
+
+# Default owners for everything in the repo
+*       @egagne
+
+# Deployment configuration requires extra scrutiny
+/.github/workflows/   @egagne
+/convex/              @egagne
+*.config.js           @egagne
+*.config.ts           @egagne
+
+# Documentation
+/docs/                @egagne
+README.md             @egagne
