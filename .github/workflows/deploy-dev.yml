@@ -61,7 +61,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: todoapp-dev
           directory: dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          # gitHubToken removed - not needed for deployment to work
 
   notify:
     name: Notify Deployment
